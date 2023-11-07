@@ -24,7 +24,7 @@ return(
     </Col>
     <Col>
     <Button onClick={()=>{
-      dispatch(addToFavAction(data))
+      dispatch(addToFavAction(data.company_name))
       }}>Add Favorite</Button>
     </Col>
   </Row>

@@ -5,7 +5,7 @@ import { FaTrash } from 'react-icons/fa'
 import { removeFromFavAction } from "../redux/actions";
 
 const FavoriteCompany = () => {
-  const companyAdd = useSelector((state) => state.addFav.content)
+  const companyAdd = useSelector((state) => state.favourite.content)
   const dispatch = useDispatch()
 const location = useLocation()
 
@@ -28,7 +28,9 @@ const location = useLocation()
             <>
             <div style={{ border: '1px solid #00000033', borderRadius: 4 }} className="d-flex flex-row p-3 mt-4">
             <li key={i} >
-              {<a href={company.company_name} target="_blank" rel="noreferrer">{company.company_name}</a>}
+              {<a href={company} target="_blank" rel="noreferrer">{company}</a>}
+              {console.log(company,i)}
+              {console.log(companyAdd)}
             </li>
             <Button
             className="ms-auto me-2"

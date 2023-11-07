@@ -2,31 +2,37 @@ import { useState } from "react";
 import { Container, Row, Col, Form } from "react-bootstrap";
 import Job from "./Job";
 import { Link, useLocation } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { searchForJobsActions } from "../redux/actions";
 
 const MainSearch = () => {
   const [query, setQuery] = useState("");
-  const [jobs, setJobs] = useState([]);
+  // const [jobs, setJobs] = useState([]);
 
-  const baseEndpoint = "https://strive-benchmark.herokuapp.com/api/jobs?search=";
+  // const baseEndpoint = "https://strive-benchmark.herokuapp.com/api/jobs?search=";
 
   const handleChange = e => {
     setQuery(e.target.value);
   };
 
+  const dispatch = useDispatch()
+  const searchResultsFromredux = useSelector((state) => state.search.content)
+//ora sarà questo searchResultsFromredux a essere mappato e non più jobs (riga 57)
+
   const handleSubmit = async e => {
     e.preventDefault();
-
-    try {
-      const response = await fetch(baseEndpoint + query + "&limit=20");
-      if (response.ok) {
-        const { data } = await response.json();
-        setJobs(data);
-      } else {
-        alert("Error fetching results");
-      }
-    } catch (error) {
-      console.log(error);
-    }
+  dispatch(searchForJobsActions(query))
+    // try {
+    //   const response = await fetch(baseEndpoint + query + "&limit=20");
+    //   if (response.ok) {
+    //     const { data } = await response.json();
+    //     setJobs(data);
+    //   } else {
+    //     alert("Error fetching results");
+    //   }
+    // } catch (error) {
+    //   console.log(error);
+    // }
   };
 
 const location = useLocation()
@@ -48,7 +54,7 @@ const location = useLocation()
           </Form>
         </Col>
         <Col xs={10} className="mx-auto mb-5">
-          {jobs.map(jobData => (
+          {searchResultsFromredux.map(jobData => (
             <Job key={jobData._id} data={jobData} />
           ))}
         </Col>
